@@ -11,3 +11,6 @@ wheels/
 
 # ruff generated files
 .ruff_cache
+
+# uv generated files
+uv.lock
