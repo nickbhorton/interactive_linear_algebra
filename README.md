@@ -1,0 +1,1 @@
+This is an linear algebra library created for the dual purpose of learning how to make a python package, and refreshing my linear algebra understanding.
