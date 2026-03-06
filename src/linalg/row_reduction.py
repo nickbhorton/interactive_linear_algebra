@@ -1,0 +1,11 @@
+from typing import Any
+
+import numpy as np
+
+MatrixNxM = np.ndarray[tuple[Any, Any]]
+
+
+def swap_rows(m: MatrixNxM, i: int, j: int):
+    temp = m[i].copy()
+    m[i] = m[j]
+    m[j] = temp
