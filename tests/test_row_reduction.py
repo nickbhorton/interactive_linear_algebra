@@ -10,6 +10,7 @@ from linalg.row_reduction import (
     replace_row,
     find_next_pivot_bounds,
     get_pivot_one,
+    clear_pivot_column,
     MatrixNxM,
 )
 
@@ -269,3 +270,42 @@ def test_get_pivot_one():
     )
     get_pivot_one(e8, find_next_pivot_bounds(e8))
     assert np.allclose(e8, a8)
+
+
+def test_clear_pivot_column():
+    e1 = np.array(
+        [
+            [0, -7, -4, 2],
+            [2, 4, 6, 12],
+            [3, 1, -1, -2],
+        ]
+    )
+    a1 = np.array(
+        [
+            [1, 2, 3, 6],
+            [0, -7, -4, 2],
+            [0, -5, -10, -20],
+        ]
+    )
+    pivot_bounds = find_next_pivot_bounds(e1)
+    get_pivot_one(e1, pivot_bounds)
+    clear_pivot_column(e1, pivot_bounds)
+    assert np.allclose(e1, a1)
+    e2 = np.array(
+        [
+            [1, 2, 3, 6],
+            [0, -5, -10, -20],
+            [0, -7, -4, 2],
+        ]
+    )
+    a2 = np.array(
+        [
+            [1, 2, 3, 6],
+            [0, 1, 2, 4],
+            [0, 0, 10, 30],
+        ]
+    )
+    pivot_bounds = find_next_pivot_bounds(e2)
+    get_pivot_one(e2, pivot_bounds)
+    clear_pivot_column(e2, pivot_bounds)
+    assert np.allclose(e2, a2)

@@ -55,5 +55,12 @@ def get_pivot_one(m: MatrixNxM, pivot_bounds: tuple[int, int]):
             swap_rows(m, pivot_row, row_idx + 1)
 
 
+def clear_pivot_column(m: MatrixNxM, pivot_bounds: tuple[int, int]):
+    pivot_row, pivot_column = pivot_bounds
+    for row_index in np.arange(pivot_row + 1, m.shape[0]):
+        if not isclose(m[row_index, pivot_column], 0):
+            replace_row(m, row_index, pivot_row, -m[row_index, pivot_column])
+
+
 def row_reduce(m: MatrixNxM):
     pass
