@@ -9,3 +9,7 @@ def swap_rows(m: MatrixNxM, i: int, j: int):
     temp = m[i].copy()
     m[i] = m[j]
     m[j] = temp
+
+
+def scale_row(m: MatrixNxM, i: int, scaler: float | int):
+    m[i] = m[i] * scaler
