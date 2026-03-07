@@ -4,7 +4,7 @@ import numpy as np
 
 from math import isclose
 
-from linalg.row_reduction import swap_rows, scale_row, MatrixNxM
+from linalg.row_reduction import swap_rows, scale_row, replace_row, MatrixNxM
 
 
 @pytest.fixture
@@ -45,3 +45,11 @@ def test_scale_row(consistent_augmented_matrix):
     assert isclose(consistent_augmented_matrix[0][1], 4)
     assert isclose(consistent_augmented_matrix[0][2], 6)
     assert isclose(consistent_augmented_matrix[0][3], 12)
+
+
+def test_replace_row(consistent_augmented_matrix):
+    replace_row(consistent_augmented_matrix, 1, 0, -2)
+    assert isclose(consistent_augmented_matrix[1][0], 0)
+    assert isclose(consistent_augmented_matrix[1][1], -7)
+    assert isclose(consistent_augmented_matrix[1][2], -4)
+    assert isclose(consistent_augmented_matrix[1][3], 2)
