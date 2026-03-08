@@ -400,6 +400,23 @@ def test_rref_consistent():
     )
     rref(e2)
     assert np.allclose(e2, a2)
+    e3 = np.array(
+        [
+            [2, 1, 12, 1],
+            [1, 2, 9, -1],
+        ],
+        dtype=float,
+    )
+    a3 = np.array(
+        [
+            [1, 0, 5, 1],
+            [0, 1, 2, -1],
+        ],
+        dtype=float,
+    )
+    rref(e3)
+    print(e3)
+    assert np.allclose(e3, a3)
 
 
 def test_rref_inconsistent():
