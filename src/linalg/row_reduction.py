@@ -23,7 +23,7 @@ def replace_row(
     m[replace_idx] = m[replace_idx] + scaler * m[scaled_idx]
 
 
-def find_next_pivot_bounds(m: MatrixNxM) -> tuple[int, int]:
+def find_next_pivot_bounds(m: MatrixNxM) -> tuple[int, int] | None:
     pivot_row: int = 0
     pivot_column: int = 0
     for column_idx in np.arange(m.shape[1]):
@@ -42,7 +42,7 @@ def find_next_pivot_bounds(m: MatrixNxM) -> tuple[int, int]:
             pivot_row += 1
         else:
             return (pivot_row, pivot_column)
-    raise Exception("matrix is inconsistent")
+    return None
 
 
 def get_pivot_one(m: MatrixNxM, pivot_bounds: tuple[int, int]):
@@ -57,10 +57,22 @@ def get_pivot_one(m: MatrixNxM, pivot_bounds: tuple[int, int]):
 
 def clear_pivot_column(m: MatrixNxM, pivot_bounds: tuple[int, int]):
     pivot_row, pivot_column = pivot_bounds
-    for row_index in np.arange(pivot_row + 1, m.shape[0]):
-        if not isclose(m[row_index, pivot_column], 0):
-            replace_row(m, row_index, pivot_row, -m[row_index, pivot_column])
+    for row_idx in np.arange(pivot_row + 1, m.shape[0]):
+        if not isclose(m[row_idx, pivot_column], 0):
+            replace_row(m, row_idx, pivot_row, -m[row_idx, pivot_column])
 
 
-def row_reduce(m: MatrixNxM):
-    pass
+def rref(m: MatrixNxM):
+    # ensure in RE form
+    pivot_bounds_list: list[tuple[int, int]] = []
+    for row_idx in np.arange(m.shape[0]):
+        pivot_bounds = find_next_pivot_bounds(m)
+        if pivot_bounds is None:
+            break
+        get_pivot_one(m, pivot_bounds)
+        clear_pivot_column(m, pivot_bounds)
+        pivot_bounds_list.append(pivot_bounds)
+    # clear up for RRE form
+    for pivot_row, pivot_column in pivot_bounds_list[::-1]:
+        for row_idx in np.arange(pivot_row)[::-1]:
+            replace_row(m, row_idx, pivot_row, -m[row_idx, pivot_column])
