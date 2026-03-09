@@ -4,26 +4,26 @@ from math import isclose
 
 import numpy as np
 
-MatrixNxM = np.ndarray[tuple[Any, Any]]
+MatrixMxN = np.ndarray[tuple[Any, Any]]
 
 
-def swap_rows(m: MatrixNxM, i: int, j: int):
-    temp = m[i].copy()
-    m[i] = m[j]
-    m[j] = temp
+def swap_rows(m: MatrixMxN, row1_idx: int, row2_idx: int):
+    temp = m[row1_idx].copy()
+    m[row1_idx] = m[row2_idx]
+    m[row2_idx] = temp
 
 
-def scale_row(m: MatrixNxM, i: int, scaler: float | int):
-    m[i] = m[i] * scaler
+def scale_row(m: MatrixMxN, row_idx: int, scaler: float | int):
+    m[row_idx] = m[row_idx] * scaler
 
 
 def replace_row(
-    m: MatrixNxM, replace_idx: int, scaled_idx: int, scaler: float | int
+    m: MatrixMxN, replace_idx: int, scaled_idx: int, scaler: float | int
 ):
     m[replace_idx] = m[replace_idx] + scaler * m[scaled_idx]
 
 
-def find_next_pivot_bounds(m: MatrixNxM) -> tuple[int, int] | None:
+def find_next_pivot_bounds(m: MatrixMxN) -> tuple[int, int] | None:
     pivot_row: int = 0
     pivot_column: int = 0
     for column_idx in np.arange(m.shape[1]):
@@ -45,7 +45,7 @@ def find_next_pivot_bounds(m: MatrixNxM) -> tuple[int, int] | None:
     return None
 
 
-def get_pivot_one(m: MatrixNxM, pivot_bounds: tuple[int, int]):
+def get_pivot_one(m: MatrixMxN, pivot_bounds: tuple[int, int]):
     pivot_row, pivot_column = pivot_bounds
     for row_idx in np.arange(pivot_row, m.shape[0]):
         if not isclose(m[pivot_row, pivot_column], 0):
@@ -55,14 +55,14 @@ def get_pivot_one(m: MatrixNxM, pivot_bounds: tuple[int, int]):
             swap_rows(m, pivot_row, row_idx + 1)
 
 
-def clear_pivot_column(m: MatrixNxM, pivot_bounds: tuple[int, int]):
+def clear_pivot_column(m: MatrixMxN, pivot_bounds: tuple[int, int]):
     pivot_row, pivot_column = pivot_bounds
     for row_idx in np.arange(pivot_row + 1, m.shape[0]):
         if not isclose(m[row_idx, pivot_column], 0):
             replace_row(m, row_idx, pivot_row, -m[row_idx, pivot_column])
 
 
-def rref(m: MatrixNxM):
+def rref(m: MatrixMxN):
     # ensure in RE form
     pivot_bounds_list: list[tuple[int, int]] = []
     for row_idx in np.arange(m.shape[0]):

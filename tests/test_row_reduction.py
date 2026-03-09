@@ -14,12 +14,12 @@ from linalg.row_reduction import (
     get_pivot_one,
     clear_pivot_column,
     rref,
-    MatrixNxM,
+    MatrixMxN,
 )
 
 
 @pytest.fixture
-def consistent_augmented_matrix() -> MatrixNxM:
+def consistent_augmented_matrix() -> MatrixMxN:
     return np.array(
         [
             [1, 2, 3, 6],
